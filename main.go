@@ -19,6 +19,13 @@ func put(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"message" : "put called"}`))
 }
 
+func name(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(fmt.Sprintf(`{"message" : "get %s called"}`, params["name"])))
+}
+
 func post(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -35,6 +42,7 @@ func main() {
 	fmt.Println("vim-go")
 	r := mux.NewRouter()
 	r.HandleFunc("/", get).Methods(http.MethodGet)
+	r.HandleFunc("/test/{name}", name).Methods(http.MethodGet)
 	r.HandleFunc("/", put).Methods(http.MethodPut)
 	r.HandleFunc("/", post).Methods(http.MethodPost)
 	r.HandleFunc("/", notFound)
