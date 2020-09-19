@@ -39,12 +39,19 @@ func notFound(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	fmt.Println("vim-go")
 	r := mux.NewRouter()
 	r.HandleFunc("/", get).Methods(http.MethodGet)
 	r.HandleFunc("/test/{name}", name).Methods(http.MethodGet)
 	r.HandleFunc("/", put).Methods(http.MethodPut)
 	r.HandleFunc("/", post).Methods(http.MethodPost)
 	r.HandleFunc("/", notFound)
+	log.Println("Server started on: http://localhost:8080")
+	r.HandleFunc("/index", Index)
+	r.HandleFunc("/show", Show)
+	r.HandleFunc("/new", New)
+	r.HandleFunc("/edit", Edit)
+	r.HandleFunc("/insert", Insert)
+	r.HandleFunc("/update", Update)
+	r.HandleFunc("/delete", Delete)
 	log.Fatal(http.ListenAndServe(":8080", r))
 }
