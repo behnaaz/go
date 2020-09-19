@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/myx"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 )
