@@ -1,7 +1,11 @@
 package main
 
-import "fmt"
-import "github.com/gorilla/mux"
+import (
+	"fmt"
+	"github.com/gorilla/myx"
+	"log"
+	"net/http"
+)
 
 func main() {
 	fmt.Println("vim-go")
