@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/mux"
+	"html"
 	"log"
 	"net/http"
 )
@@ -32,6 +33,12 @@ func post(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(`{"message" : "post called"}`))
 }
 
+func postMessage(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/text")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(fmt.Sprintf(`{"postMessage %s called"}`, html.EscapeString(r.FormValue("message")))))
+}
+
 func notFound(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -44,6 +51,7 @@ func main() {
 	r.HandleFunc("/test/{name}", name).Methods(http.MethodGet)
 	r.HandleFunc("/", put).Methods(http.MethodPut)
 	r.HandleFunc("/", post).Methods(http.MethodPost)
+	r.HandleFunc("/message", postMessage).Methods(http.MethodPost)
 	r.HandleFunc("/", notFound)
 	log.Println("Server started on: http://localhost:8080")
 	r.HandleFunc("/index", Index)
